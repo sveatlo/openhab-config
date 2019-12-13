@@ -1,0 +1,6 @@
+rule "super-testing rule"
+when
+    System started
+then
+
+end

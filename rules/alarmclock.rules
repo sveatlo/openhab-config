@@ -1,0 +1,150 @@
+import org.joda.time.*
+import org.openhab.core.library.types.*
+
+var Timer alarmTimer = null
+var Timer alarmWakeupTimer = null
+var Timer wakeUpLightsTimer = null
+var Number wakeUpDimmer = 0
+var Number wakeUpDimmerStep = 1
+
+rule "Clean alarms on start"
+when
+    System started
+then
+    if (alarmTimer !== null) {
+        alarmTimer.cancel()
+        alarmTimer = null
+    }
+    if (alarmWakeupTimer !== null) {
+        alarmWakeupTimer.cancel()
+        alarmWakeupTimer = null
+    }
+    if (wakeUpLightsTimer !== null) {
+        wakeUpLightsTimer.cancel()
+        wakeUpLightsTimer = null
+    }
+    WakeUpLights.sendCommand(OFF)
+
+    logInfo("alarm", "All alarms are cleaned")
+end
+
+rule "Alarm Clock"
+when
+    Item AlarmClock changed
+then
+    if (AlarmClock.state as Number == 0) {
+        if (alarmTimer !== null) {
+            alarmTimer.cancel()
+            alarmTimer = null
+        }
+        if (alarmWakeupTimer !== null) {
+            alarmWakeupTimer.cancel()
+            alarmWakeupTimer = null
+        }
+
+        logInfo("alarm", "All alarms are cancelled")
+        return;
+    }
+
+    var finalTime = new DateTime((AlarmClock.state as Number).longValue)
+    var wakeupStartTime = finalTime.plusMinutes(-20)
+    logInfo("alarm", "Scheduling alarm for " +  finalTime.toString())
+    logInfo("alarm", "Scheduling alarm wake-up lights for " +  wakeupStartTime.toString())
+
+    if (alarmTimer !== null) {
+        logInfo("alarm", "Reschedule alarm")
+        alarmTimer.reschedule(finalTime)
+        alarmWakeupTimer.reschedule(wakeupStartTime)
+    } else {
+        logInfo("alarm", "New Alarm")
+
+        alarmWakeupTimer = createTimer(wakeupStartTime, [ k |
+            logInfo("alarm", "alarmWakeupTimer went off. SvatoPresence = " + SvatoPresence.state + ", TanaPresence = " + TanaPresence.state)
+            // turn on lights only if i'm home alone
+            if (SvatoPresence.state === ON && TanaPresence.state === OFF) {
+                WakeUpLights.sendCommand(ON)
+            }
+        ])
+
+        alarmTimer = createTimer(finalTime, [ k |
+            logInfo("alarm", "alarmTimer went off")
+
+            logInfo("alarm", "SvatoPresence.state: " + SvatoPresence.state)
+            // play music if i'm home
+            if (SvatoPresence.state === OFF) {
+                return;
+            }
+
+            // set device to raspotify - 73cb47ef5a6e6c42413e61f7b52bc0b2c0ab4167
+            SpotifyDevices.sendCommand("73cb47ef5a6e6c42413e61f7b52bc0b2c0ab4167")
+            Thread::sleep(1000)
+            SpotifyRaspotifyShuffle.sendCommand(ON)
+            Thread::sleep(1000)
+            SpotifyDeviceShuffle.sendCommand(ON)
+            Thread::sleep(1000)
+            // SpotifyPlaylists.sendCommand("spotify:playlist:37i9dQZF1DX0UrRvztWcAU") // wake up happy
+            if (SpotifyPlaylists.state != "spotify:playlist:37i9dQZF1DX0UrRvztWcAU") {
+                SpotifyPlaylists.sendCommand("spotify:playlist:37i9dQZF1DX7cZxYLqLUJl") // wake up gently
+            }
+
+            logInfo("alarm", "alarm is expired")
+        ])
+    }
+end
+
+rule "wake-up wights"
+when
+    Item WakeUpLights changed to ON
+then
+	logInfo("wakeup", "wakeup started")
+
+    if ((BedroomLightsBrightness.state as Number) > 0) {
+        return;
+    }
+
+	wakeUpDimmer = 0
+    wakeUpDimmerStep = 1
+    // start at very warm white
+    BedroomLightsWhiteTemperature.sendCommand(100)
+
+	wakeUpLightsTimer = createTimer(now.plusSeconds(1), [|
+        logInfo("wakeup", "wakeup step: " + wakeUpDimmer)
+        if((BedroomLightsBrightness.state as Number) == 100) {
+            logInfo("wakeup", "wakeup ended")
+            wakeUpDimmer = 0
+            wakeUpDimmerStep = 1
+            wakeUpLightsTimer = null
+            WakeUpLights.sendCommand(OFF)
+
+            return;
+        }
+
+        if ((BedroomLightsBrightness.state as Number) == 5) {
+            wakeUpDimmerStep = 5
+        } else if ((BedroomLightsBrightness.state as Number) == 30) {
+            wakeUpDimmerStep = 10
+        }
+        wakeUpDimmer += wakeUpDimmerStep
+        if(wakeUpDimmer > 100) {
+            wakeUpDimmer = 100
+        }
+
+        logInfo("wakeup", "wakeup step. next brightness: " + BedroomLightsBrightness.state)
+        BedroomLightsBrightness.sendCommand(wakeUpDimmer)
+
+        wakeUpLightsTimer.reschedule(now.plusSeconds(60))
+    ])
+
+end
+
+rule "cancel wake-up lights"
+when
+    Item WakeUpLights changed to OFF
+then
+    if (wakeUpLightsTimer === null) {
+        return;
+    }
+
+    wakeUpLightsTimer.cancel()
+    wakeUpLightsTimer = null
+end

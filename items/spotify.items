@@ -1,0 +1,19 @@
+Group SpotifyGroup
+
+Player SpotifyTrackPlayer   "Player"               (SpotifyGroup) {channel="spotify:player:sveatlo:trackPlayer"}
+String SpotifyDevices       "Active device [%s]"   (SpotifyGroup) {channel="spotify:player:sveatlo:devices"}
+Switch SpotifyDeviceShuffle "Shuffle mode"         (SpotifyGroup) {channel="spotify:player:sveatlo:deviceShuffle"}
+String SpotifyTrackRepeat   "Repeat mode: [%s]"    (SpotifyGroup) {channel="spotify:player:sveatlo:trackRepeat"}
+String SpotifyTrackProgress "Track progress: [%s]" (SpotifyGroup) {channel="spotify:player:sveatlo:trackProgress"}
+String SpotifyTrackDuration "Track duration: [%s]" (SpotifyGroup) {channel="spotify:player:sveatlo:trackDuration"}
+String SpotifyTrackName     "Track Name: [%s]"     (SpotifyGroup) {channel="spotify:player:sveatlo:trackName"}
+String SpotifyAlbumName     "Album Name: [%s]"     (SpotifyGroup) {channel="spotify:player:sveatlo:albumName"}
+String SpotifyArtistName    "Artist Name: [%s]"    (SpotifyGroup) {channel="spotify:player:sveatlo:artistName"}
+Image  SpotifyAlbumImage    "Album Art"            (SpotifyGroup) {channel="spotify:player:sveatlo:albumImage"}
+String SpotifyPlaylists     "Playlists [%s]"       (SpotifyGroup) {channel="spotify:player:sveatlo:playlists"}
+String SpotifyPlayName      "Playlist [%s]"        (SpotifyGroup) {channel="spotify:player:sveatlo:playlistName"}
+
+Dimmer SpotifyRaspotifyVolume  "Raspotify volume"  {channel="spotify:device:sveatlo:raspotify:deviceVolume"}
+Switch SpotifyRaspotifyShuffle "Raspotify shuffle" {channel="spotify:device:sveatlo:raspotify:deviceShuffle"}
+
+String SpotifyTrackPlay {channel="spotify:player:sveatlo:trackPlay"}

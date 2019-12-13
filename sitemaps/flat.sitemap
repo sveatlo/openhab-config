@@ -1,0 +1,107 @@
+sitemap flat label="My home" {
+    // Group item=Flat
+    // Switch item=Bedroom
+
+    Frame label="General" {
+        /* Text item=MyPhone label="My phone status [MAP(presence_en.map):%s]" icon="man_3" */
+        // Text item=TPhone label="T's phone status [MAP(presence_en.map):%s]" icon="woman_3"
+        // Default item=WakeUpLights
+        /* Default item=WeatherCurrentConditionText icon="WeatherCurrentconditionicon" label="Weather condition" */
+        /* Default item=WeatherCurrentOutsideTemperature icon="temperature" */
+        Text label="Home presence [%d people home]" item=SomebodyHome icon=parents_3_3 {
+            Text item=SvatoPresence label="Svato [MAP(presence.map):%s]" {
+                Chart item=SvatoPresence period=W refresh=300
+            }
+            Text item=TanaPresence label="Tana [MAP(presence.map):%s]" {
+                Chart item=TanaPresence period=W refresh=300
+            }
+            Text item=DavidPresence label="David [MAP(presence.map):%s]" {
+                Chart item=DavidPresence period=W refresh=300
+            }
+        }
+        Text item=WeatherCurrentConditionTemperatureCombo label="Weather [%s]" icon=weathercurrentcondition {
+            Frame label="Current" {
+                Default item=WeatherCurrentCondition label="Weather condition" icon=weathercurrentcondition
+                    Default item=WeatherCurrentOutdoorTemperature label="Outdoor temperature" icon=temperature
+            }
+
+            Frame label="6 hour forecast" {
+                Default item=WeatherForecast6HourCondition label="Weather condition" icon=weatherforecast6hourcondition
+                Default item=WeatherForecast6HourOutdoorMinTemperature label="Minimum temperature" icon=temperature
+                Default item=WeatherForecast6HourOutdoorMaxTemperature label="Maximum temperature" icon=temperature
+                Default item=WeatherForecast6HourRain label="Rain" icon=rain
+                Default item=WeatherForecast6HourWind label="Wind" icon=wind
+            }
+
+            Frame label="Today forecast" {
+                Default item=WeatherForecastTodayCondition label="Weather condition" icon=weatherforecasttodaycondition
+                Default item=WeatherForecastTodayOutdoorMinTemperature label="Minimum temperature" icon=temperature
+                Default item=WeatherForecastTodayOutdoorMaxTemperature label="Maximum temperature" icon=temperature
+                Default item=WeatherForecastTodayRain label="Rain" icon=rain
+                Default item=WeatherForecastTodayWind label="Wind" icon=wind
+            }
+
+            Frame label="Tomorrow forecast" {
+                Default item=WeatherForecastTomorrowCondition label="Weather condition" icon=weatherforecasttomorrowcondition
+                Default item=WeatherForecastTomorrowOutdoorMinTemperature label="Minimum temperature" icon=temperature
+                Default item=WeatherForecastTomorrowOutdoorMaxTemperature label="Maximum temperature" icon=temperature
+                Default item=WeatherForecastTomorrowRain label="Rain" icon=rain
+                Default item=WeatherForecastTomorrowWind label="Wind" icon=wind
+            }
+        }
+
+        Text label="Spotify" icon="spotify" {
+            Frame {
+                Selection item=SpotifyDevices       label="Active device [%s]" icon="devices"
+                Default   item=SpotifyTrackPlayer   label="Player"
+                // Switch    item=SpotifyDeviceShuffle label="Shuffle mode:"
+                // Text      item=SpotifyTrackRepeat   label="Repeat mode [%s]"
+                Selection item=SpotifyPlaylists     label="Playlist" icon="playlist"
+                Text      item=SpotifyArtistName    label="Artist Name [%s]"
+                // Text      item=SpotifyTrackDuration label="Track duration [%s]"
+                Text      item=SpotifyTrackName     label="Track Name [%s]"
+                Text      item=SpotifyTrackProgress label="Track progress [%s]" icon="number"
+                // Text      item=SpotifyAlbumName     label="Album Name [%s]"
+                Image     item=SpotifyAlbumImage    label="Album Art"
+            }
+
+            Frame label="Raspotify" icon="raspi" {
+                Setpoint item=SpotifyRaspotifyVolume label="Volume" icon="soundvolume" minValue=0 maxValue=100 step=5
+                Default item=SpotifyRaspotifyShuffle label="Shuffle" icon="shuffle"
+            }
+        }
+    }
+
+    Frame label="Bedroom" icon="bedroom" {
+        // Switch item=BedroomLights label="All lights"
+
+        // Default item=Bedroom_SceneEveryday
+        // Default item=Bedroom_SceneFocus
+        // Default item=Bedroom_SceneRelax
+        // Default item=Bedroom_SceneSexytime
+        Switch item=Bedroom_Scene label="Scene" icon="home_automation" mappings=[1="Everyday",2="Focus",3="Relax",4="Sexy time"]
+        Slider item=BedroomLightsBrightness label="All lights brightness" switchSupport
+        // Slider item=BedroomLightsWhiteTemperature label="All lights white temperature"
+
+
+        Text item=Bedroom_DeskLamp_Switch label="Desk lamp [%s]" icon="light" {
+            Default item=Bedroom_DeskLamp_Switch label="Switch"
+            Default item=Bedroom_DeskLamp_ColorChooser label="Colour"
+        }
+
+        Text item=Bedroom_NightstandLamp_Switch label="Nightstand lamp  [%s]" icon="light" {
+            Default item=Bedroom_NightstandLamp_Switch label="Switch"
+            Default item=Bedroom_NightstandLamp_Brightness label="Brightness"
+            Default item=Bedroom_NightstandLamp_WhiteTemperature label="White temperature"
+        }
+
+        Text item=Bedroom_TechstackPlug_Switch label="Techstack plug [%s]" icon="poweroutlet_eu" {
+            Default item=Bedroom_TechstackPlug_Switch
+            Default item=Bedroom_TechstackPlug_LedLightSwitch
+            Default item=Bedroom_TechstackPlug_Power icon="energy"
+            Default item=Bedroom_TechstackPlug_EnergyUsage
+        }
+
+        Default item=Bedroom_Control_BatteryLevel
+    }
+}

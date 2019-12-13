@@ -1,0 +1,99 @@
+// Item BedroomLights changed
+rule "update-bedroom-scene-off"
+when
+	Member of BedroomLights changed
+then
+    if (BedroomLights.state === OFF) {
+        Bedroom_Scene.sendCommand(0)
+        return
+    }
+end
+
+rule "bedroom-scenes"
+when
+    Item Bedroom_Scene changed
+then
+    if (Bedroom_Scene.state != 0) {
+        BedroomLights.sendCommand(ON)
+    }
+
+    switch(Bedroom_Scene.state) {
+        case -1: {
+
+        }
+        case 0: {
+            // say("turning the lights off")
+            BedroomLights.sendCommand(OFF)
+        }
+        case 1: {
+            // everyday
+            Bedroom_NightstandLamp_Brightness.sendCommand(80)
+            Bedroom_NightstandLamp_WhiteTemperature.sendCommand(50)
+            Bedroom_DeskLamp_ColorChooser.sendCommand("30,64,80")
+        }
+        case 2: {
+            // focus
+            Bedroom_NightstandLamp_Brightness.sendCommand(100)
+            Bedroom_NightstandLamp_WhiteTemperature.sendCommand(0)
+            Bedroom_DeskLamp_ColorChooser.sendCommand("0,0,100")
+        }
+        case 3: {
+            // relax
+            Bedroom_NightstandLamp_Brightness.sendCommand(10)
+            Bedroom_NightstandLamp_WhiteTemperature.sendCommand(100)
+            Bedroom_DeskLamp_ColorChooser.sendCommand("29,80,10")
+        }
+        case 4: {
+            // sexy time
+            SpotifyTrackPlayer.sendCommand(PAUSE)
+            Thread::sleep(1000)
+            // say("let the sex begin", "googletts:enGBWavenetD")
+            Bedroom_NightstandLamp_Brightness.sendCommand(10)
+            Bedroom_NightstandLamp_WhiteTemperature.sendCommand(100)
+            Bedroom_DeskLamp_ColorChooser.sendCommand("0,100,100")
+        }
+    }
+end
+
+
+rule "everyday-scene-switch-handler"
+when
+    Item Bedroom_SceneEveryday changed to ON
+then
+    Bedroom_Scene.sendCommand(1)
+    Bedroom_Scenes.sendCommand(OFF)
+end
+
+rule "focus-scene-switch-handler"
+when
+    Item Bedroom_SceneFocus changed to ON
+then
+    Bedroom_Scene.sendCommand(2)
+    Bedroom_Scenes.sendCommand(OFF)
+end
+
+rule "relax-scene-switch-handler"
+when
+    Item Bedroom_SceneRelax changed to ON
+then
+    Bedroom_Scene.sendCommand(3)
+    Bedroom_Scenes.sendCommand(OFF)
+end
+
+rule "sexytime-scene-switch-handler"
+when
+    Item Bedroom_SceneSexytime changed to ON
+then
+    Bedroom_Scene.sendCommand(4)
+    Bedroom_Scenes.sendCommand(OFF)
+end
+
+
+
+// lonely island - i just had sex = spotify:track:5PEleSkK4p4E1sx3x7cOLt
+// rule "play-i_just_had_sex-after-sexy-time"
+// when
+//     Item Bedroom_Scene changed from 4
+// then
+//     SpotifyTrackPlay.sendCommand("spotify:track:5PEleSkK4p4E1sx3x7cOLt")
+// end

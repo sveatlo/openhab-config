@@ -1,0 +1,8 @@
+Group Flat
+
+// from phone app
+Switch WakeUpLights "Wake-up lights starter"
+Number AlarmClock   "Alarm"         <alarm>
+String CallState    "Call state"
+
+

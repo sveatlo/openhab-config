@@ -1,0 +1,24 @@
+rule "Weather Condition Icons"
+when
+	Member of GroupWeatherIcons changed
+then
+    logInfo("weather_icons_rule", "generating new weather icon. triggering item = " + triggeringItem.name + "; item state = " + triggeringItem.state)
+	if(triggeringItem.state != NULL) {
+		val cmd = "/etc/openhab2/scripts/base642png.sh " + triggeringItem.name.replace("Icon","").toLowerCase + " \"" + triggeringItem.state.toFullString.replace("data:image/png;base64,","") + "\""
+		executeCommandLine(cmd, 2000)
+	}
+end
+
+
+rule "Current weather condition-temperature combo"
+when
+	System started or
+	Item WeatherCurrentCondition changed or
+	Item WeatherCurrentOutdoorTemperature changed
+then
+	if (WeatherCurrentCondition.state == NULL || WeatherCurrentCondition.state == UNDEF) {
+        WeatherCurrentConditionTemperatureCombo.sendCommand("...")
+	} else {
+        WeatherCurrentConditionTemperatureCombo.sendCommand(WeatherCurrentCondition.state + " – " + WeatherCurrentOutdoorTemperature.state.toString)
+	}
+end

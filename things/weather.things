@@ -1,0 +1,4 @@
+Bridge openweathermap:weather-api:api "Openweather bridge" [ apikey="f13246c9d661d0192ec7b25fcaafdae1" ] {
+    Thing weather-and-forecast local "Local Weather And Forecast" [location="49.2097058,16.6028777", forecastHours=6, forecastDays=2]
+}
+Thing astro:sun:local  [ geolocation="49.2097058,16.6028777", interval=60 ]

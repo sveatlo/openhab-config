@@ -1,0 +1,13 @@
+rule "Call State Trigger"
+when
+    Item CallState changed
+then
+    if (CallState.state == "IDLE") {
+        // No call activity
+    } else if (CallState.state == "RINGING") {
+        // A new call arrived and is ringing or waiting. In the latter case, another call is already active.
+    } else if (CallState.state == "OFFHOOK") {
+        // At least one call exists that is dialing, active, or on hold, and no calls are ringing or waiting.
+    }
+
+end

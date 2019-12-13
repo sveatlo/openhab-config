@@ -1,0 +1,40 @@
+var Timer absenceTimer = null
+
+rule "Leave home rule"
+when
+    Item SvatoPresence changed to OFF
+then
+    if(absenceTimer === null || absenceTimer.hasTerminated) {
+        absenceTimer = createTimer(now.plusMinutes(1), [|
+            absenceTimer = null
+
+            BedroomLights.sendCommand(OFF)
+            SpotifyTrackPlayer.sendCommand(PAUSE)
+            logInfo("home_presence", "no one home. turning everything off")
+        ])
+    }
+end
+
+
+rule "Back home rule"
+when
+    Item SvatoPresence changed from OFF to ON
+then
+    if (absenceTimer !== null && !absenceTimer.hasTerminated) {
+        absenceTimer.cancel()
+        logInfo("home_presence", "cancelling timer")
+    }
+    logInfo("home_presence", "phone returned")
+
+    val daylightStart = new DateTime(DaylightStart.state.toString)
+    val daylightEnd = new DateTime(DaylightEnd.state.toString)
+    if (now.isAfter(daylightEnd) || now.isBefore(daylightStart)) {
+        logInfo("home_presence", "after sunset => turning on lights")
+
+        Bedroom_SceneEveryday.sendCommand(ON)
+    }
+
+    if (SpotifyTrackPlayer.state == PLAY) {
+        SpotifyDevices.sendCommand("73cb47ef5a6e6c42413e61f7b52bc0b2c0ab4167")
+    }
+end

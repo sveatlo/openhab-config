@@ -1,0 +1,7 @@
+Bridge tradfri:gateway:gw4491602bef77 "TRÅDFRI Gateway" @ "Bedroom" [ host="10.69.42.248", code="p9h45rSPMf4T933m", identity="a6a2153e7a4e42198187496e536c29f2", preSharedKey="bByEHjVRWBIQimEM" ] {
+    0210 deskLamp "Desk lamp" @ "Bedroom" [ id=65537 ]
+    0220 nightstandLamp "Nightstand lamp" @ "Bedroom" [ id=65538 ]
+    0830 bedroomRemoteControl "Bedroom remote Control" @ "Bedroom" [ id=65536 ]
+}
+
+Thing tplinksmarthome:hs110:563678 "Techstack plug" @ "Bedroom" [ deviceId="80067E438D8E0981ED7FD0597084C6BA1B563678", refresh=60 ]

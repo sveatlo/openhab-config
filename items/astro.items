@@ -1,0 +1,4 @@
+DateTime SunriseTime    "Sunrise"           { channel="astro:sun:local:rise#start" }
+DateTime SunsetTime     "Sunset"            { channel="astro:sun:local:set#end" }
+DateTime DaylightStart  "Daylight start"    { channel="astro:sun:local:daylight#start" }
+DateTime DaylightEnd    "Daylight end"      { channel="astro:sun:local:daylight#end" }

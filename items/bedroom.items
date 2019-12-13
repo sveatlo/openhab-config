@@ -1,0 +1,29 @@
+Group Bedroom
+Group:Switch:OR(ON,OFF) BedroomLights (Bedroom)
+Group:Dimmer:AVG BedroomLightsBrightness (Bedroom)
+Group:Dimmer:AVG BedroomLightsWhiteTemperature (Bedroom)
+
+// itemtype itemname "labeltext [stateformat]" <iconname> (group1, group2, ...) ["tag1", "tag2", ...] {bindingconfig}
+Number Bedroom_Control_BatteryLevel "Remote Control battery level" <battery> { channel="tradfri:0830:gw4491602bef77:bedroomRemoteControl:battery_level" }
+Switch Bedroom_NightstandLamp_Switch "Switch" <switch> (Bedroom, BedroomLights) { channel="tradfri:0220:gw4491602bef77:nightstandLamp:brightness" }
+Dimmer Bedroom_NightstandLamp_Brightness "Brightness" <slider> (Bedroom, BedroomLightsBrightness) { channel="tradfri:0220:gw4491602bef77:nightstandLamp:brightness" }
+Dimmer Bedroom_NightstandLamp_WhiteTemperature "White temperature" <slider> (Bedroom, BedroomLightsWhiteTemperature) { channel="tradfri:0220:gw4491602bef77:nightstandLamp:color_temperature" }
+
+Switch Bedroom_DeskLamp_Switch "Switch" <switch> (Bedroom, BedroomLights) { channel="tradfri:0210:gw4491602bef77:deskLamp:color" }
+Dimmer Bedroom_DeskLamp_WhiteTemperature "White temperature" <slider> (Bedroom, BedroomLightsWhiteTemperature) { channel="tradfri:0210:gw4491602bef77:deskLamp:color_temperature" }
+Color  Bedroom_DeskLamp_ColorChooser "Colour" <colorpicker> (Bedroom, BedroomLightsBrightness) { channel="tradfri:0210:gw4491602bef77:deskLamp:color" }
+
+Switch Bedroom_TechstackPlug_Switch "Switch" <switch> (Bedroom) { channel="tplinksmarthome:hs110:563678:switch" }
+Switch Bedroom_TechstackPlug_LedLightSwitch "LED light switch" <switch> (Bedroom) { channel="tplinksmarthome:hs110:563678:led" }
+Number:Power Bedroom_TechstackPlug_Power "Power" (Bedroom) { channel="tplinksmarthome:hs110:563678:power" }
+Number:Energy Bedroom_TechstackPlug_EnergyUsage "Energy usage" (Bedroom) { channel="tplinksmarthome:hs110:563678:energyUsage" }
+
+
+// Scenes
+Number Bedroom_Scene // current scene holder
+
+Group:Switch:OR(ON,OFF) Bedroom_Scenes (Bedroom)
+Switch Bedroom_SceneEveryday "Everyday" <switch> (Bedroom_Scenes) ["Scene"]
+Switch Bedroom_SceneFocus "Focus" <switch> (Bedroom_Scenes) ["Scene"]
+Switch Bedroom_SceneRelax "Relax" <switch> (Bedroom_Scenes) ["Scene"]
+Switch Bedroom_SceneSexytime "Sexy time" <switch> (Bedroom_Scenes) ["Scene"]

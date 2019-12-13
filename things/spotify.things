@@ -1,0 +1,3 @@
+Bridge spotify:player:sveatlo "My spotify account" [clientId="55a8ae764ca349f78c49efb2fe900877", clientSecret="fe2b88fb9dca4560ade8e1365ec236dd"] {
+  Thing device raspotify "Raspotify" [deviceName="raspotify"]
+}

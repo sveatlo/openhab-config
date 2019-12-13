@@ -1,0 +1,5 @@
+Thing network:pingdevice:my_phone "My Phone" [ hostname="10.69.42.4", refreshInterval=10000 ]
+Thing network:pingdevice:tana_phone "Tatiana's Phone" [ hostname="10.69.42.5", refreshInterval=10000 ]
+Thing network:pingdevice:david_phone "David's Phone" [ hostname="192.168.0.150", retry=3, timeout=5000, refreshInterval=10000 ]
+Thing network:pingdevice:david_laptop "David's laptop" [ hostname="192.168.0.206", retry=3, timeout=5000, refreshInterval=10000 ]
+

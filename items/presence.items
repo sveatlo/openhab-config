@@ -1,0 +1,9 @@
+Group:Switch:OR(ON,OFF) SomebodyHome
+Group:Switch:OR(ON,OFF) SvatoPresence "Svato" <man_3>   (SomebodyHome)
+Group:Switch:OR(ON,OFF) TanaPresence  "Tana"  <woman_3> (SomebodyHome)
+Group:Switch:OR(ON,OFF) DavidPresence "David" <boy_3>   (SomebodyHome)
+
+Switch SvatoPhone "My phone status"      (SvatoPresence) { channel="network:pingdevice:my_phone:online" }
+Switch TanaPhone  "Tana's phone status"  (TanaPresence)  { channel="network:pingdevice:tana_phone:online" }
+Switch DavidPhone "David's phone status" (DavidPresence) { channel="network:pingdevice:david_phone:online" }
+Switch DavidPhone "David's laptop"       (DavidPresence) { channel="network:pingdevice:david_laptop:online" }

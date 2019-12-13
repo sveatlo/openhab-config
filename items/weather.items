@@ -1,0 +1,43 @@
+/* Image   WeatherCurrentConditionIcon         "Icon"                          <image>         { channel="openweathermap:weather-and-forecast:6158a545:local:current#icon" } */
+/* String  WeatherCurrentConditionText         "Condition"                     <text>          { channel="openweathermap:weather-and-forecast:6158a545:local:current#condition" } */
+/* String  WeatherCurrentConditionID           "Forecast condition ID [%s]"    <text>          { channel="openweathermap:weather-and-forecast:6158a545:local:current#condition-id" } */
+/* Number  WeatherCurrentOutsideTemperature    "Outside temperature"           <temperature>   { channel="openweathermap:weather-and-forecast:6158a545:local:current#temperature" } */
+/* Number  WeatherCurrentCombo                 "Current weather"               <owm_condition> */
+/*  */
+/* Image   WeatherForecastTodayConditionIcon         "Icon"                          <image>         { channel="openweathermap:weather-and-forecast:6158a545:local:forecastToday#icon" } */
+/* String  WeatherForecastTodayConditionText         "Condition"                     <text>          { channel="openweathermap:weather-and-forecast:6158a545:local:forecastToday#condition" } */
+/* String  WeatherForecastTodayConditionID           "Forecast condition ID [%s]"    <text>          { channel="openweathermap:weather-and-forecast:6158a545:local:forecastToday#condition-id" } */
+/* Number  WeatherForecastTodayMinOutsideTemperature "Minimum Outside temperature"   <temperature>   { channel="openweathermap:weather-and-forecast:6158a545:local:forecastToday#min-temperature" } */
+/* Number  WeatherForecastTodayMaxOutsideTemperature "Maximum Outside temperature"   <temperature>   { channel="openweathermap:weather-and-forecast:6158a545:local:forecastToday#max-temperature" } */
+/* Number  WeatherForecastTodayCombo                 "Current weather"               <owm_condition> */
+
+
+Group GroupWeatherIcons
+
+String WeatherCurrentConditionTemperatureCombo
+
+String             WeatherCurrentCondition          "Current condition description" { channel="openweathermap:weather-and-forecast:api:local:current#condition" }
+Image              WeatherCurrentConditionIcon      "Current condition icon"        (GroupWeatherIcons) { channel="openweathermap:weather-and-forecast:api:local:current#icon" }
+Number:Temperature WeatherCurrentOutdoorTemperature "Current outdoor temperature"   { channel="openweathermap:weather-and-forecast:api:local:current#temperature" }
+Number:Length      WeatherCurrentRain               "Current rain"                  { channel="openweathermap:weather-and-forecast:api:local:current#rain" }
+
+String             WeatherForecastTodayCondition             "Today condition description"       { channel="openweathermap:weather-and-forecast:api:local:forecastToday#condition" }
+Image              WeatherForecastTodayConditionIcon         "Today condition icon"              (GroupWeatherIcons) { channel="openweathermap:weather-and-forecast:api:local:forecastToday#icon" }
+Number:Temperature WeatherForecastTodayOutdoorMinTemperature "Today minimum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastToday#min-temperature" }
+Number:Temperature WeatherForecastTodayOutdoorMaxTemperature "Today maximum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastToday#max-temperature" }
+Number:Length      WeatherForecastTodayRain                  "Today rain"                        { channel="openweathermap:weather-and-forecast:api:local:forecastToday#rain" }
+Number:Speed       WeatherForecastTodayWind                  "Today wind speed"                  { channel="openweathermap:weather-and-forecast:api:local:forecastToday#wind-speed" }
+
+String             WeatherForecastTomorrowCondition             "Tomorrow condition description"       { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#condition" }
+Image              WeatherForecastTomorrowConditionIcon         "Tomorrow condition icon"              (GroupWeatherIcons) { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#icon" }
+Number:Temperature WeatherForecastTomorrowOutdoorMinTemperature "Tomorrow minimum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#min-temperature" }
+Number:Temperature WeatherForecastTomorrowOutdoorMaxTemperature "Tomorrow maximum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#max-temperature" }
+Number:Length      WeatherForecastTomorrowRain                  "Tomorrow rain"                        { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#rain" }
+Number:Speed       WeatherForecastTomorrowWind                  "Tomorrow wind speed"                  { channel="openweathermap:weather-and-forecast:api:local:forecastTomorrow#wind-speed" }
+
+String             WeatherForecast6HourCondition             "6 hour forecast condition description"       { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#condition" }
+Image              WeatherForecast6HourConditionIcon         "6 hour forecast condition icon"              (GroupWeatherIcons) { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#icon" }
+Number:Temperature WeatherForecast6HourOutdoorMinTemperature "6 hour forecast minimum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#min-temperature" }
+Number:Temperature WeatherForecast6HourOutdoorMaxTemperature "6 hour forecast maximum outdoor temperature" { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#max-temperature" }
+Number:Length      WeatherForecast6HourRain                  "6 hour forecast rain"                        { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#rain" }
+Number:Speed       WeatherForecast6HourWind                  "6 hour forecast wind speed"                  { channel="openweathermap:weather-and-forecast:api:local:forecastHours06#wind-speed" }
